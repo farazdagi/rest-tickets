@@ -1,0 +1,9 @@
+[submodule "projects/app"]
+	path = projects/app
+	url = https://github.com/farazdagi/rest-tickets-app
+[submodule "projects/api"]
+	path = projects/api
+	url = https://github.com/farazdagi/rest-tickets-api
+[submodule "projects/db"]
+	path = projects/db
+	url = https://github.com/farazdagi/rest-tickets-db
