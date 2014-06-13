@@ -1,9 +1,9 @@
 [submodule "projects/app"]
 	path = projects/app
-	url = https://github.com/farazdagi/rest-tickets-app
+	url = git@github.com:farazdagi/rest-tickets-app.git
 [submodule "projects/api"]
 	path = projects/api
-	url = https://github.com/farazdagi/rest-tickets-api
+	url = git@github.com:farazdagi/rest-tickets-api.git
 [submodule "projects/db"]
 	path = projects/db
-	url = https://github.com/farazdagi/rest-tickets-db
+	url = git@github.com:farazdagi/rest-tickets-db.git
