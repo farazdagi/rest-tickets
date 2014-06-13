@@ -1,0 +1,11 @@
+---
+# The variables file used by the playbooks in the appservers group.
+# These don't have to be explicitly imported by vars_files: they are auto-populated.
+
+server_name: REST Tickets Application Server
+server_version: 1.0.0
+server_release_date: June 13, 2014
+server_key: rest.tickets
+server_hostname: rest.tickets
+server_username: deploy # this user will be used as owner of application files
+server_repo: git@github.com:farazdagi/rest-tickets-app.git
