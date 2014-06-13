@@ -1,0 +1,26 @@
+parameters:
+    database_driver: {{ database_driver }}
+    database_host: {{ database_host }}
+    database_port: {{ database_port }}
+    database_name: {{ database_name }}
+    database_user: {{ database_user }}
+    database_password: {{ database_pass }}
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            en
+    secret:            TryToGuessMeNow
+
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true
+
+    # custom settings
+    appTitle: {{ server_name }}
+    appReleaseVersion: {{ server_version }}
+    appReleaseDate: {{ server_release_date }}
+    appMainUrl: https://{{ server_hostname }}
+

@@ -1,0 +1,38 @@
+---
+# This playbook setups project application.
+
+- name: setup application configuration file (parameters.yml)
+  template: src=parameters.yml dest=/home/{{ server_username }}/repo/app/config/parameters.yml
+
+- name: fix configuration file permissions (parameters.yml)
+  command: chmod 644 /home/{{ server_username }}/repo/app/config/parameters.yml
+
+- name: update global composer.json file
+  command: composer config -g github-oauth.github.com 32e3c96845f120a81d0060e80e342295170047a3
+
+- name: install project dependencies
+  command: composer install chdir=/home/{{ server_username }}/repo
+
+- name: app/console assets:install
+  command: app/console assets:install web --symlink chdir=/home/{{ server_username }}/repo
+
+- name: app/console assetic:dump
+  command: app/console assetic:dump --force chdir=/home/{{ server_username }}/repo
+
+#- name: app/console doctrine:migrations:migrate
+#  command: app/console doctrine:migrations:migrate --no-interaction chdir=/home/{{ server_username }}/repo
+
+- name: chown files in "repo"
+  command: find /home/{{ server_username }}/repo/ -exec chown {{ server_username }}:{{ server_username }} '{}' \;
+  when: is_virtualbox is not defined
+
+- name: tweak permissions of writable directories
+  command: chmod 777 {{ item }} chdir=/home/{{ server_username }}/repo
+  with_items:
+    - app/cache
+    - app/logs
+    - app/logs/prod.log
+  when: is_virtualbox is not defined
+
+- name: reset application cache
+  command: app/console cache:clear --env=prod --no-debug chdir=/home/{{ server_username }}/repo

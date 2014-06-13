@@ -1,0 +1,20 @@
+---
+# Variables listed here are applicable to all host groups
+
+database_driver: pdo_pgsql
+database_host: db.rest.tickets
+database_port: 5432
+database_name: tickets
+database_user: tickets
+database_pass: password # you need to CHANGE this on production :)
+database_locale: en_US.UTF-8
+
+dev_hosts: # these values will end up in /etc/hosts on each development node
+    - {name: "rest.tickets", ip: "10.3.0.10"}
+    - {name: "db.rest.tickets", ip: "10.3.0.20"}
+    - {name: "api.rest.tickets", ip: "10.3.0.30"}
+
+mailer_transport: smtp.gmail.com:587
+mailer_hostname: localhost
+mailer_user: rest.tickets@gmail.com
+mailer_pass: 9nj3xQyi

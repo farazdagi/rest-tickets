@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+git submodule foreach git pull origin master && git add projects/api projects/db projects/app && git ci -m 'Updated submodules to latest' && git push origin master

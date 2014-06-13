@@ -1,0 +1,10 @@
+---
+# This playbook contains tasks necessary to setup sandbox mail server
+
+- name: install SSMTP packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - ssmtp
+
+- name: copy ssmtp.conf file into /etc/ssmtp/
+  template: src="ssmtp.conf" dest="/etc/ssmtp/ssmtp.conf"

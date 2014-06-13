@@ -1,0 +1,15 @@
+---
+# API-serving VMs deployment playbook.
+
+- name: configure REST API server nodes
+  hosts: apiservers
+  sudo: yes
+  roles:
+    - common
+    - php5-fpm
+    - php-tools
+    - user-account
+    - git-repository
+    - project
+    - nginx
+    - mail

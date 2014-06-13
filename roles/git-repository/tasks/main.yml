@@ -1,0 +1,39 @@
+---
+# This playbook get project code from project repository.
+
+- name: ensure .ssh folder exists
+  command: mkdir /root/.ssh creates=/root/.ssh
+  when: is_virtualbox is not defined
+
+- name: ensure known_hosts exists in .ssh
+  command: touch /root/.ssh/known_hosts
+  when: is_virtualbox is not defined
+
+- name: remove github.com from known host
+  command: ssh-keygen -R github.com
+  when: is_virtualbox is not defined
+
+- name: ensure github.com in known host
+  shell: ssh-keyscan -H github.com >> /root/.ssh/known_hosts
+  when: is_virtualbox is not defined
+
+- name: make sure root can use SSH agent forwarding of default user
+  lineinfile: dest=/etc/sudoers state=present regexp='^Defaults env_keep.*"SSH_AUTH_SOCK"$' line='Defaults env_keep += "SSH_AUTH_SOCK"'
+  when: is_virtualbox is not defined
+
+- name: pull code from repository
+  git: repo={{ server_repo }} dest=/home/{{ server_username }}/repo version=master
+  when: is_virtualbox is not defined
+
+- name: update "repo" folder permissions
+  command: chown {{ server_username }}:{{ server_username }} /home/{{ server_username }}/repo
+  when: is_virtualbox is not defined
+
+- name: chown ownership of files in "repo"
+  command: find /home/{{ server_username }}/repo/ -exec chown {{ server_username }}:{{ server_username }} '{}' \;
+  when: is_virtualbox is not defined
+
+- name: symlink Vagrant shared folder (will be used instead of pulling from git repo)
+  command: ln -s /project /home/{{ server_username }}/repo creates=/home/{{ server_username }}/repo
+  when: is_virtualbox is defined
+

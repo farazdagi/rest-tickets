@@ -1,0 +1,9 @@
+---
+# This playbook setups project user.
+
+# password generated as: perl -e 'print crypt("password","\$6\$saltsalt\$") . "\n"'
+# thus, credentials are: {{ server_username }}/password
+- name: setup user account for application deployment
+  user: name={{ server_username }} generate_ssh_key=yes ssh_key_bits=2048 shell=/bin/bash password=$6$saltsalt$qFmFH.bQmmtXzyBY0s9v7Oicd2z4XSIecDzlB5KiA2/jctKu9YterLp8wwnSq.qc.eoxqOmSuNp2xS0ktL3nh/
+
+

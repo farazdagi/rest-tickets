@@ -1,0 +1,8 @@
+[appservers]
+10.3.0.10       ansible_connection=ssh  ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key is_virtualbox=1
+
+[dbservers]
+10.3.0.20       ansible_connection=ssh  ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key is_virtualbox=1
+
+[apiservers]
+10.3.0.30       ansible_connection=ssh  ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key is_virtualbox=1

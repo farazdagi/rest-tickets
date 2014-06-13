@@ -1,0 +1,40 @@
+---
+# This playbook contains plays that will install and configure nginx web-server.
+
+- name: install nginx package
+  apt: pkg=nginx state=latest
+
+- name: copy nginx.conf configuration
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+# setup configuration scripts
+- name: create "config-templates" directory for custom nginx configuration templates
+  command: /bin/mkdir /etc/nginx/config-templates creates=/etc/nginx/config-templates
+
+- name: copy over custom nginx configuration templates (Virtualbox)
+  template: src=config-templates/{{ item.from }} dest=/etc/nginx/config-templates/{{ item.to }}
+  with_items:
+    - { from: "common", to: "common"}
+    - { from: "symfony-dev", to: "symfony"}
+  when: is_virtualbox is defined
+
+- name: copy over custom nginx configuration templates (Production)
+  template: src=config-templates/{{ item.from }} dest=/etc/nginx/config-templates/{{ item.to }}
+  with_items:
+    - { from: "common", to: "common"}
+    - { from: "symfony-prod", to: "symfony"}
+  when: is_virtualbox is not defined
+
+# setup CA Certificate
+- name: create "ca-certificates" directory for dummy SSL certificate
+  command: /bin/mkdir /etc/nginx/ca-certificates creates=/etc/nginx/ca-certificates
+
+- name: copy over dummy SSL certificate
+  template: src=ca-certificates/{{ item }} dest=/etc/nginx/ca-certificates/{{ item }}
+  with_items:
+    - dummy.crt
+    - dummy.key
+
+- name: copy default site configuration and restart nginx
+  template: src=default.conf dest=/etc/nginx/conf.d/default.conf
+  notify: restart nginx

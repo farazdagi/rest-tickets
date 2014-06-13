@@ -1,0 +1,9 @@
+---
+# DB-serving VMs deployment playbook.
+
+- name: configure DB server nodes
+  hosts: dbservers
+  sudo: yes
+  roles:
+    - common
+    - pgsql

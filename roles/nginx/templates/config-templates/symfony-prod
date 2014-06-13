@@ -1,0 +1,31 @@
+location / {
+    # try to serve file directly, fallback to rewrite
+    try_files $uri @rewriteapp;
+}
+
+location @rewriteapp {
+    # rewrite all to app.php
+    rewrite ^(.*)$ /app.php/$1 last;
+}
+
+location ~ ^/(app|app_dev|config)\.php(/|$) {
+    include fastcgi_params;
+
+    fastcgi_pass unix:/var/run/php5-fpm.sock;   # forward to php-fpm via sockets
+    fastcgi_cache  one;                         # use zone one for cache
+    fastcgi_cache_min_uses 3;                   # cache page after 3 loads
+    fastcgi_cache_valid 200 301 302 304 5m;     # valid HTTP status codes to cache
+    fastcgi_cache_key "$request_method|$host|$request_uri";
+    fastcgi_index  index.php;
+    fastcgi_intercept_errors off;               # turn off on production
+    fastcgi_param HTTPS on;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_read_timeout 300s;
+    fastcgi_send_timeout 300s;
+}
+
+location ~* \.(css|js|jpeg|jpg|gif|png|ico)$ {
+    log_not_found off;
+    access_log off;
+    expires 7d;
+}

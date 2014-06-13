@@ -1,0 +1,51 @@
+---
+# This playbook contains common plays that will install auxillary tools.
+
+- name: update apt packages
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: install supporting packages to manage apt repositories
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - software-properties-common
+    - python-software-properties
+    - python
+    - g++
+    - make
+
+- name: add 3rd party apt repositories
+  apt_repository: repo='{{ item }}' state=present
+  with_items:
+    - ppa:chris-lea/node.js
+
+- name: installing tools and utility packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - wget
+    - curl
+    - htop
+    - cron
+    - unzip
+    - git
+    - python-pip
+    - nodejs
+
+- name: fix issue with NodeJS and self-signed certificates
+  command: npm config set ca ""
+
+- name: install nodejs modules
+  npm: name={{ item }} state=present global=yes
+  with_items:
+    - less
+
+- name: install python libraries
+  pip: name={{ item }}
+  with_items:
+    - passlib
+    - yolk
+
+- name: update /etc/hosts (on vagrant box)
+  lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line='{{ item.ip }} {{ item.name }}' state=present
+  with_items: dev_hosts
+  when: is_virtualbox is defined # on production we will just use 'is_virtualbox is not defined'
+

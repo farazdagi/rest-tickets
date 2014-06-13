@@ -1,0 +1,43 @@
+---
+# This playbook contains plays that will install and configure php5-fpm.
+
+- name: install php5-fpm and php5-cli
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - php5-fpm
+    - php5-cli
+
+- name: install php5-* extensions
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - php5-common
+    - php5-suhosin
+    - php5-cgi
+    - php5-curl
+    - php5-intl
+    - php5-memcache
+    - php5-xdebug
+    - php5-xmlrpc
+    - php-apc
+    - php-pear
+    - php5-mcrypt
+#    - php5-gd
+#    - php5-pgsql
+#    - php5-sqlite
+
+- name: setup default site
+  template: src=www.conf dest=/etc/php5/fpm/pool.d/www.conf owner=root group=root mode=0644
+
+- name: copy over php.ini settings file (on vagrant box)
+  copy: src=php.development.ini dest=/etc/php5/fpm/php.ini
+  notify: restart php5-fpm
+  when: is_virtualbox is defined # on production host, use: 'is_virtualbox is not defined' + php.production.ini file
+
+- name: configure php5-fpm extensions (copy custom configuration)
+  copy: src={{ item }} dest=/etc/php5/fpm/conf.d/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - apc.ini
+    - memcache.ini
+    - xdebug.ini
+    - suhosin.ini
+  notify: restart php5-fpm

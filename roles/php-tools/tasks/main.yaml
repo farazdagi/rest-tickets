@@ -1,0 +1,5 @@
+---
+# This playbook contains plays that will install and configure MUST-HAVE tools for PHP5 development
+
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer creates=/usr/local/bin/composer
