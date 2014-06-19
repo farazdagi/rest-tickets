@@ -1,0 +1,45 @@
+index index.php index.html index.htm;
+
+# if you don't like seeing all the errors for missing favicon.ico in root
+location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+    expires 7d;
+}
+
+# if you don't like seeing errors for a missing robots.txt in root
+location = /robots.txt {
+    access_log off;
+    log_not_found off;
+}
+
+# this will prevent files like .htaccess .htpassword .secret etc from being served
+# You can remove the log directives if you wish to
+# log any attempts at a client trying to access a hidden file
+location ~ /\. {
+    deny all;
+    access_log off;
+    log_not_found off;
+}
+
+# some gzip optimization magic
+gzip on;
+gzip_proxied any;
+
+# more than 5, will be hit by law of diminishing returns
+gzip_comp_level 5;
+
+# Allow header "Vary: Accept-Encoding" (Google Page Speed will love it)
+gzip_vary on;
+
+# do not check for static files
+gzip_static off;
+
+# what to gzip
+gzip_types text/css text/plain application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
+
+# min size of artefacts that will be gzipped
+gzip_min_length 1024;
+
+# stupid browsers do not speak gzip
+gzip_disable "msie6";
