@@ -10,6 +10,6 @@
     - php-tools
     - user-account
     - git-repository
-    - project
-    - nginx
+    - project-api
+    - nginx-php
     - mail

@@ -13,6 +13,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.hostname = "app"
         app.vm.network :private_network, ip: "10.3.0.10"
         app.vm.synced_folder "./projects/app", "/project", type: "nfs"
+
+        # Provision with Ansible
+        app.vm.provision :ansible do |ansible|
+            ansible.playbook = "site.appservers.yml"
+            ansible.inventory_path = "hosts"
+        end
     end
 
     # Database Server
@@ -22,6 +28,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         db.vm.hostname = "db"
         db.vm.network :private_network, ip: "10.3.0.20"
         db.vm.synced_folder "./projects/db", "/project", type: "nfs"
+
+        # Provision with Ansible
+        db.vm.provision :ansible do |ansible|
+            ansible.playbook = "site.dbservers.yml"
+            ansible.inventory_path = "hosts"
+        end
     end
 
     # API Server
@@ -32,9 +44,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         api.vm.network :private_network, ip: "10.3.0.30"
         api.vm.synced_folder "./projects/api", "/project", type: "nfs"
 
-        # Provision with Ansible (Once the last node is ready)
-        config.vm.provision :ansible do |ansible|
-            ansible.playbook = "site.yml"
+        # Provision with Ansible
+        api.vm.provision :ansible do |ansible|
+            ansible.playbook = "site.apiservers.yml"
             ansible.inventory_path = "hosts"
         end
     end
@@ -43,4 +55,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
+
 end

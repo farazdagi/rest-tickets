@@ -6,10 +6,7 @@
   sudo: yes
   roles:
     - common
-    - php5-fpm
-    - php-tools
     - user-account
     - git-repository
-    - project
-    - nginx
+    - nginx-static
 
