@@ -1,0 +1,8 @@
+---
+# Install Yeoman + AngularJS Generator
+
+- name: install Yeoman
+  npm: name=yeoman state=latest global=yes
+
+- name: install AngularJS generators for Yeoman
+  npm: name=generator-angular state=latest global=yes
