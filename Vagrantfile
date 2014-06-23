@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.provision :ansible do |ansible|
             ansible.playbook = "site.appservers.yml"
             ansible.inventory_path = "hosts"
+            ansible.limit = 'all'
         end
     end
 
@@ -33,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         db.vm.provision :ansible do |ansible|
             ansible.playbook = "site.dbservers.yml"
             ansible.inventory_path = "hosts"
+            ansible.limit = 'all'
         end
     end
 
@@ -48,12 +50,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         api.vm.provision :ansible do |ansible|
             ansible.playbook = "site.apiservers.yml"
             ansible.inventory_path = "hosts"
+            ansible.limit = 'all'
         end
     end
 
     # Provider(s) configuration
     config.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 256
     end
 
 end
