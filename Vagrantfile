@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.box_url = "http://files.vagrantup.com/precise64.box"
         app.vm.hostname = "app"
         app.vm.network :private_network, ip: "10.3.0.10"
-        app.vm.synced_folder "./projects/app", "/project", type: "nfs"
+        app.vm.synced_folder "./projects/app", "/project", type: "nfs"  # NFS requires password during 'vagrant up'
 
         # Provision with Ansible
         app.vm.provision :ansible do |ansible|
