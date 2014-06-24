@@ -9,6 +9,13 @@ location @rewriteapp {
 }
 
 location ~ ^/(app|app_dev|config)\.php(/|$) {
+    # requires http://wiki.nginx.org/HttpHeadersMoreModule to handle response codes that add_header ignores
+    more_set_headers "Access-Control-Allow-Origin: $http_origin";
+    more_set_headers "Access-Control-Allow-Credentials: true";
+    more_set_headers "Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS";
+    more_set_headers "Access-Control-Allow-Headers: Keep-Alive,User-Agent,If-Modified-Since,Cache-Control,Content-Type,Authorization";
+    more_set_headers "Access-Control-Max-Age: 1728000";
+
     include fastcgi_params;
 
     fastcgi_pass unix:/var/run/php5-fpm.sock;   # forward to php-fpm via sockets
