@@ -33,6 +33,6 @@ To make it easier to type, add following aliases to your /etc/hosts file:
     10.3.0.20 db.rest.tickets
     10.3.0.30 api.rest.tickets
 
-Finally, try navigating to application in your browser: https://rest.tickets (you might need to accept self-signed SSL
-certificate).
+Finally, try navigating to application in your browser: https://api.rest.tickets (you might need to accept self-signed SSL
+certificate). You should get a confirmation message.
 
