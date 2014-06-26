@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Provider(s) configuration
     config.vm.provider "virtualbox" do |v|
-      v.memory = 256
+      v.customize ['--memory', '256']
     end
 
 end
