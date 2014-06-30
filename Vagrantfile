@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.box = "precise64"
         app.vm.box_url = VIRTUALBOX_PRECISE_VM
         app.vm.hostname = "app"
-        app.vm.network :private_network, ip: "10.3.0.10"
+        db.vm.network :private_network, ip: "10.3.0.10"
         app.vm.synced_folder "./projects/app", "/project", type: "nfs"  # NFS requires password during 'vagrant up'
 
         # Provision with Ansible
@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         api.vm.box = "precise64"
         api.vm.box_url = VIRTUALBOX_PRECISE_VM
         api.vm.hostname = "api"
-        api.vm.network :private_network, ip: "10.3.0.30"
+        #api.vm.network :private_network, ip: "10.3.0.30"
         api.vm.synced_folder "./projects/api", "/project", type: "nfs"
 
         # Provision with Ansible
@@ -57,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Provider(s) configuration
     config.vm.provider "virtualbox" do |v|
-      v.customize ['modifyvm', :id, '--memory', '1024']
+      v.customize ['modifyvm', :id, '--memory', '256']
     end
 
 end
